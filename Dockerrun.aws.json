@@ -1,0 +1,38 @@
+{
+	"AWSEBDockerrunVersion": 2,
+	"containerDefinations": [
+		{
+                        "name": "client",
+                        "image": "itzmekk/multi-client",
+                        "hostname": "client",
+                        "essential": false
+                },
+		{
+                        "name": "server",
+                        "image": "itzmekk/multi-server",
+                        "hostname": "api",
+                        "essential": false
+                },
+		{
+			"name": "worker",
+			"image": "itzmekk/multi-worker",
+			"hostname": "worker",
+			"essential": false
+		},
+		{
+                        "name": "nginx",
+                        "image": "itzmekk/multi-nginx",
+                        "hostname": "nginx",
+			"essential": true,
+			"portMappings": [
+				{
+					"hostPort": 80,
+					"containerport": 80
+				}
+			],
+			"links": ["client", "server"]
+                }
+	
+	]
+
+}
