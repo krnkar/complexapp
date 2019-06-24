@@ -5,7 +5,8 @@
                         "name": "client",
                         "image": "itzmekk/multi-client",
                         "hostname": "client",
-                        "essential": false
+                        "essential": false,
+
                 },
 		{
                         "name": "server",
@@ -27,7 +28,7 @@
 			"portMappings": [
 				{
 					"hostPort": 80,
-					"containerport": 80
+					"containerPort": 80
 				}
 			],
 			"links": ["client", "server"]
