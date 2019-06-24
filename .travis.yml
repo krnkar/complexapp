@@ -1,0 +1,21 @@
+sudo: required
+services: docker
+
+before_install:
+        - docker build -t itzmekk/react-client -f ./client/Dockerfile.dev ./client
+
+script:
+        - docker run -e CI=True itzmekk/react-client npm test -- --coverage
+
+after_success:
+        - docker build -t itzmekk/multi-client ./client
+        - docker build -t itzmekk/multi-nginx ./nginx
+        - docker build -t itzmekk/multi-server ./server
+        - docker build -t itzmekk/multi-worker ./worker
+        # Login to Docker CLI
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+        # Push the images
+        - docker push itzmekk/multi-client
+        - docker push itzmekk/multi-nginx
+        - docker push itzmekk/multi-server
+        - docker push itzmekk/multi-worker
